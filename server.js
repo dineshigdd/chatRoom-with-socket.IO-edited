@@ -74,8 +74,9 @@ mongo.connect(process.env.DATABASE,{ useUnifiedTopology: true }, (err, db) => {
       
       
       socket.on('chat message',(message) =>{
-        console.log("this is the msg:" + message)
-           io.emit('chat message',socket.request.user.name, message ) // io.emit('chat message', {name: socket.request.user.name, message});
+       
+           io.emit('chat message',{name:socket.request.user.name, message } ) 
+        // io.emit('chat message', {name: socket.request.user.name, message});
       });
       
       socket.on('disconnect', () => { 

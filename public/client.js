@@ -3,6 +3,16 @@ $( document ).ready(function() {
 var socket = io();
 
   
+// Form submittion with new message in field with id 'm'
+  $('form').submit(function(){
+    var messageToSend = $('#m').val();
+    //send message to server here?   
+    
+    socket.emit( 'chat message',messageToSend );
+    $('#m').val('');
+    return false; // prevent form submit from refreshing page
+  });
+  
 socket.on('user', function(data){         
     $('#num-users').text(data.currentUsers + ' users online');
     var message = data.name;
@@ -21,19 +31,6 @@ socket.on('user', function(data){
 socket.on('chat message', function(data){
     $('#messages').append($('<li>').text(data.name+': '+data.message));
   });
-  
-   
-  // Form submittion with new message in field with id 'm'
-  $('form').submit(function(){
-    var messageToSend = $('#m').val();
-    //send message to server here?   
-    console.log("this is messageToSend in client" + messageToSend);
-    socket.emit( 'chat message',messageToSend );
-    $('#m').val('');
-    return false; // prevent form submit from refreshing page
-  });
-  
-  
-  
+    
 });
 
