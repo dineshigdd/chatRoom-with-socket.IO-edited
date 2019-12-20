@@ -12,9 +12,17 @@ const cookieParser= require('cookie-parser')
 const app         = express();
 const http        = require('http').Server(app);
 const sessionStore= new session.MemoryStore();
+const cors = require('cors');
 const io = require('socket.io')(http);
 
 
+
+// Documentation for mongodb here
+// http://mongodb.github.io/node-mongodb-native/3.2/api/
+
+// Do not put this under fccTesting(app)
+// otherwise your tests won't pass
+app.use(cors());
 
 fccTesting(app); //For FCC testing purposes
 
@@ -36,6 +44,7 @@ app.use(session({
 mongo.connect(process.env.DATABASE,{ useUnifiedTopology: true }, (err, db) => {
     if(err) console.log('Database error: ' + err);
   
+    
     auth(app, db);
     routes(app, db);
       

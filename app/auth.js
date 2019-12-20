@@ -24,17 +24,19 @@ module.exports = function (app, db) {
     passport.use(new GitHubStrategy({
         clientID: process.env.GITHUB_CLIENT_ID,
         clientSecret: process.env.GITHUB_CLIENT_SECRET,
-        callbackURL: "https://wholesale-coreopsis.glitch.me/auth/github/callback"
+        // Make sure this URL points to your project for the github callback
+        callbackURL: "https://troubled-litter.glitch.me/auth/github/callback"
       },
       function(accessToken, refreshToken, profile, cb) {
-          db.collection('chatusers').findAndModify(
+          // Since mongodb v3 you use findOneAndUpdate since
+          // findAndModify is deprecated
+          db.collection('chatusers').findOneAndUpdate(
               {id: profile.id},
-              {},
               {$setOnInsert:{
                   id: profile.id,
                   name: profile.displayName || 'Anonymous',
                   photo: profile.photos[0].value || '',
-                  email: profile.emails[0].value || 'No public email',
+                  email: profile.email || 'No public email',
                   created_on: new Date(),
                   provider: profile.provider || '',
                   chat_messages: 0
@@ -43,9 +45,9 @@ module.exports = function (app, db) {
               },$inc:{
                   login_count: 1
               }},
-              {upsert:true, new: true}, //Insert object if not found, Return new object after modify
-              (err, doc) => {
-                  return cb(null, doc.value);
+              {upsert:true, returnOriginal: false}, //Insert object if not found, Return new object after modify
+              (err, result) => {
+                  return cb(null, result.value);
               }
           );
         }
