@@ -11,16 +11,20 @@ socket.on('user', function(data){
     } else{
       message += ' has left the chat.';
     }
-    $('#messages').append($('<li>').html('<b>' + message + ' ' + data.message + ' '+ '<\/b>'));
+  
+  socket.on('chat message', function(data){
+    $('#messages').append($('<li>').html('<b>' + message + '<\/b>'));
+  });
 });
 
-console.log('user ' + socket.request.user.name + ' connected')
+  
+
    
   // Form submittion with new message in field with id 'm'
   $('form').submit(function(){
     var messageToSend = $('#m').val();
     //send message to server here?
-    var messageToSend = '';
+    var messageToSend;
     socket.emit( 'chat message',messageToSend );
     $('#m').val('');
     return false; // prevent form submit from refreshing page

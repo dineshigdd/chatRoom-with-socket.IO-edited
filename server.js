@@ -65,7 +65,8 @@ mongo.connect(process.env.DATABASE,{ useUnifiedTopology: true }, (err, db) => {
     //start socket.io code  
     io.on('connection', socket => {
           ++currentUsers;
-          io.emit('user', currentUsers, connected );
+          console.log('user ' + socket.request.user.name + ' connected');
+          io.emit('user', currentUsers, connected );  //io.emit('user', {name: socket.request.user.name, currentUsers, connected: true});
       
            // console.log('A user has connected');    
       
