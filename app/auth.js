@@ -7,7 +7,8 @@ module.exports = function (app, db) {
   
     app.use(passport.initialize());
     app.use(passport.session());
-
+    db = db.db('chatusers');//I add this line as Version 3 MongoDB connect differently where it gives the parent instead of the db.
+    
     passport.serializeUser((user, done) => {
       done(null, user.id);
     });
@@ -25,7 +26,7 @@ module.exports = function (app, db) {
         clientID: process.env.GITHUB_CLIENT_ID,
         clientSecret: process.env.GITHUB_CLIENT_SECRET,
         // Make sure this URL points to your project for the github callback
-        callbackURL: "https://troubled-litter.glitch.me/auth/github/callback"
+        callbackURL: "https://wholesale-coreopsis.glitch.me/auth/github/callback"
       },
       function(accessToken, refreshToken, profile, cb) {
           // Since mongodb v3 you use findOneAndUpdate since
