@@ -20,6 +20,8 @@ console.log('user ' + socket.request.user.name + ' connected')
   $('form').submit(function(){
     var messageToSend = $('#m').val();
     //send message to server here?
+    var messageToSend = '';
+    socket.emit( 'chat message',messageToSend );
     $('#m').val('');
     return false; // prevent form submit from refreshing page
   });

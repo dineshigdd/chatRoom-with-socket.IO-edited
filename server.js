@@ -74,9 +74,12 @@ mongo.connect(process.env.DATABASE,{ useUnifiedTopology: true }, (err, db) => {
            connected = false;
            io.emit('user',name,currentUsers,connected );   
     
-    });
+      });
       
-    
+      socket.on('chat message',() =>{
+        io.emit()
+      });
+      
     });
   
     
