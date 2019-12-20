@@ -7,7 +7,7 @@ socket.on('user count', function(data){
           console.log(data);
 });
 
-
+console.log('user ' + socket.request.user.name + ' connected')
    
   // Form submittion with new message in field with id 'm'
   $('form').submit(function(){
