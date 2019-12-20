@@ -11,7 +11,7 @@ socket.on('user', function(data){
     } else{
       message += ' has left the chat.';
     }
-    $('#messages').append($('<li>').html('<b>' + message + '<\/b>'));
+    $('#messages').append($('<li>').html('<b>' + message + ' ' + data.message + ' '+ '<\/b>'));
 });
 
 console.log('user ' + socket.request.user.name + ' connected')
