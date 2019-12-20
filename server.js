@@ -61,18 +61,22 @@ mongo.connect(process.env.DATABASE,{ useUnifiedTopology: true }, (err, db) => {
   
   
     var currentUsers = 0;
+    var connected = true;
     //start socket.io code  
     io.on('connection', socket => {
           ++currentUsers;
-          io.emit('user count', currentUsers);
+          io.emit('user', currentUsers, connected );
       
            // console.log('A user has connected');    
       
       socket.on('disconnect', () => { 
-            --currentUsers;        
-           io.emit('user count',currentUsers);   
+            --currentUsers;  
+           connected = false;
+           io.emit('user',name,currentUsers,connected );   
     
-});
+    });
+      
+    
     });
   
     

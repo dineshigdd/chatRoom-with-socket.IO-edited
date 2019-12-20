@@ -1,7 +1,7 @@
 $( document ).ready(function() {
   /*global io*/
 var socket = io();
-var currentUsers;
+
   
 socket.on('user', function(data){         
     $('#num-users').text(data.currentUsers + ' users online');
