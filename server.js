@@ -14,6 +14,7 @@ const http        = require('http').Server(app);
 const sessionStore= new session.MemoryStore();
 const cors = require('cors');
 const io = require('socket.io')(http);
+const passportSocketIo = require('passport.socketio');
 
 
 
@@ -49,13 +50,29 @@ mongo.connect(process.env.DATABASE,{ useUnifiedTopology: true }, (err, db) => {
     routes(app, db);
       
     http.listen(process.env.PORT || 3000);
-
+    
+    io.use(passportSocketIo.authorize({
+      cookieParser: cookieParser,
+      key         : express.sid,
+      secret      : process.env.SESSION_SECRET,
+      store       : sessionStore
+    }));
+  
+  
+  
     var currentUsers = 0;
     //start socket.io code  
     io.on('connection', socket => {
           ++currentUsers;
           io.emit('user count', currentUsers);
+      
            // console.log('A user has connected');    
+      
+      socket.on('disconnect', () => { 
+            --currentUsers;        
+           io.emit('user count',currentUsers);   
+    
+});
     });
   
     
