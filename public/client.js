@@ -1,5 +1,6 @@
 $( document ).ready(function() {
-  
+  /*global io*/
+var socket = io();
   
    
   // Form submittion with new message in field with id 'm'
@@ -13,5 +14,4 @@ $( document ).ready(function() {
   
   
 });
-/*global io*/
-var socket = io();
+
