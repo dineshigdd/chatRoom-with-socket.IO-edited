@@ -50,12 +50,16 @@ mongo.connect(process.env.DATABASE,{ useUnifiedTopology: true }, (err, db) => {
       
     http.listen(process.env.PORT || 3000);
 
-  
+    var currentUsers = 0;
     //start socket.io code  
     io.on('connection', socket => {
+          ++currentUsers;
+          io.emit('user count', currentUsers);
             console.log('A user has connected');
     });
   
+  
+    
 
     //end socket.io code
   
