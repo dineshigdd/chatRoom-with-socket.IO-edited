@@ -65,20 +65,24 @@ mongo.connect(process.env.DATABASE,{ useUnifiedTopology: true }, (err, db) => {
     //start socket.io code  
     io.on('connection', socket => {
           ++currentUsers;
-          console.log('user ' + socket.request.user.name + ' connected');
-          io.emit('user', currentUsers, connected );  //io.emit('user', {name: socket.request.user.name, currentUsers, connected: true});
+          console.log('user' + socket.request.user.name + ' connected');
+      
+          io.emit('user', { name :socket.request.user.name,currentUsers, connected } );  //io.emit('user', {name: socket.request.user.name, currentUsers, connected: true});
       
            // console.log('A user has connected');    
+      
+      
+      
+      socket.on('chat message',(message) =>{
+        console.log("this is the msg:" + message)
+           io.emit('chat message',socket.request.user.name, message ) // io.emit('chat message', {name: socket.request.user.name, message});
+      });
       
       socket.on('disconnect', () => { 
             --currentUsers;  
            connected = false;
-           io.emit('user',name,currentUsers,connected );   
-    
-      });
-      
-      socket.on('chat message',(message) =>{
-           io.emit('chat message',name, message )
+           io.emit('user',{ name:socket.request.user.name,currentUsers,connected} );   
+            //  io.emit('user', {name: socket.request.user.name, currentUsers, connected: true});
       });
       
     });
